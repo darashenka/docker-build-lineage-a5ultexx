@@ -2,6 +2,10 @@
 
 set -eu
 
+git config --global user.email "${gitemail}" && \
+    git config --global user.name "${gituser}" && \
+    git config --global color.ui true
+
 # Set-Up ccache
 ccache -M 50G
 
@@ -10,6 +14,7 @@ if [ ! -d android/lineage ]; then
 	mkdir -p android/lineage
 	cd android/lineage
 	repo init -u https://github.com/LineageOS/android.git -b lineage-15.1
+	repo sync
 else
 	cd android/lineage
 fi
@@ -22,7 +27,7 @@ mkdir -p .repo/local_manifests
 cat > .repo/local_manifests/roomservice.xml << __EOF__
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-  <project name="DeadSquirrel01/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="lineage-15.1" />
+  <!-- project name="DeadSquirrel01/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="lineage-15.1" /-->
   <project name="LineageOS/android_hardware_samsung" path="hardware/samsung" remote="github" revision="lineage-15.1" />
   <project name="LineageOS/android_packages_resources_devicesettings" path="packages/resources/devicesettings" remote="github" revision="lineage-15.1" />
   <project path="device/qcom/common" name="lineageos/android_device_qcom_common" remote="github" revision="lineage-15.1" />
